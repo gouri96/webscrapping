@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="static/CSS/main.css" rel="stylesheet">
+  
+  <script>
+    function myFunction() {
+        var x = document.getElementById("myDIV");
+        var y = document.getElementById("myDIV1");
+        var z = document.getElementById("myDIV3");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+          y.style.display = 'none';
+          z.style.display = 'none';
+        } else {
+          x.style.display = "none";
+        }
+    }
+
+function myFunction1() {
+  var x = document.getElementById("myDIV1");
+  var y = document.getElementById("myDIV");
+  var z = document.getElementById("myDIV3");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+    y.style.display = 'none';
+    z.style.display = 'none';
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function compare()
+{
+ var firstNumber = document.getElementById("first").value;
+ var secondNumber = document.getElementById("second").value;
+ if(parseInt(firstNumber) > parseInt(secondNumber))
+ {
+  alert("Max number must be greater than Min");
+  document.getElementById("second").value="";
+ }
+
+}
+
+</script>
+</head>
+<body>
+
+<div class="topnav">
+  
+  <a class="active" href="http://192.168.43.231:5000/">Home</a>
+  <a href="http://192.168.43.231:5000/charts">Discount Analysis</a>
+  <a href="http://192.168.43.231:5000/charts1">Rating Wise Product Analysis</a>
+  <a href="http://192.168.43.231:5000/charts2">Rating wise Price And Reviewer Analysis</a>
+</div>
+
+<div style="padding-left:16px">
+  <h2>Retrieve Product Information By Price</h2>
+
+  <a href="http://192.168.43.231:5000/fetchalliteams">
+    <button class="button2">Fetch All Products</button>
+  </a>
+
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+  
+<button class="button2" onclick="myFunction()">
+  Fetch Single Product
+</button>
+  
+<div id="myDIV" style="display:none;position:absolute;top:200px;left:100px;">
+ <form action = "http://192.168.43.231:5000/selecteditem" method = "POST" enctype = "multipart/form-data">
+  <h3>Enter the Product Price: &emsp;<input type="number" name="productid" required>&emsp;
+   <input type="submit" value="submit"></h3>
+ </form>
+</div>
+
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+  <button class="button2" onclick="myFunction1()">
+    Fetch Range of Products
+  </button>
+  
+  <div id="myDIV1" style="display:none;position:absolute;top:200px;left:100px;">
+    <form action = "http://192.168.43.231:5000/range" method = "POST" enctype = "multipart/form-data">
+        <h3> Enter The  Minimum Price :&emsp;<input type="number" id='first' name="productidmin" required>&emsp;
+             Enter The  Maximum Price :&emsp;<input type="number" id='second' name="productidmax" onchange="compare()" required>&emsp;
+       <input type="submit" value="submit"></h3>
+     </form>
+  </div>
+</div>
+
+<div id='myDIV3' style="height:400px;width:1330px;position:relative;top:100px;left:10px;overflow-x:auto;">
+   <table  class="table" width="100%" cellspacing="0">
+    {% for table in tables %}
+      {{ table|safe }}
+      {% endfor %}
+   </table>
+</div>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{{ title }}</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+  <link href="static/CSS/main.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="topnav">
+  <a  href="http://192.168.43.231:5000/">Home</a>
+  <a  href="http://192.168.43.231:5000/charts">Discount Analysis</a>
+  <a class="active" href="http://192.168.43.231:5000/charts1">Rating Wise Product Analysis</a>
+  <a href="http://192.168.43.231:5000/charts2">Rating wise Price And Reviewer Analysis</a>
+</div>
+  <center>
+    <h1>{{ title }}</h1>
+  </center>
+
+  
+
+  <center>
+    <div style="position:relative;width:1000px;height:500px;left:150px;">
+    <canvas id="chart" width="1000" height="500" style="position:absolute;right:150px;"></canvas>
+     <Div style="position:absolute;top:99%;left:30%;z-index:10;">Rating</div>
+                        <Div style="position:absolute;top:300px;left:-250px;transform: rotate(-90deg);z-index:10;">Number Of Products</Div>
+
+    </div>
+    <script>
+      // bar chart data
+      var barData = {
+        labels : [
+          {% for item in labels %}
+           "{{ item }}",
+          {% endfor %}
+	],
+        datasets : [{
+          fillColor: "rgba(151,187,205,0.2)",
+          strokeColor: "rgba(151,187,205,1)",
+          pointColor: "rgba(151,187,205,1)",
+          data : [
+            {% for item in values %}
+               "{{ item }}",
+              {% endfor %}
+	    ]
+          }
+        ]
+      }
+     // get bar chart canvas
+     var mychart = document.getElementById("chart").getContext("2d");
+       steps = 10
+       max = {{max}}
+     // draw bar chart
+     new Chart(mychart).Bar(barData, {
+       scaleOverride: true,
+       scaleSteps: steps,
+       scaleStepWidth: Math.ceil(max / steps),
+       scaleStartValue: 0,
+       scaleShowVerticalLines: true,
+       scaleShowGridLines : true,
+       barShowStroke : true,
+       scaleShowLabels: true
+       }
+     );
+    </script>
+  </center>
+</body>
+</html>
